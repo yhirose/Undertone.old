@@ -1,0 +1,247 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: sans-serif;
+    color: #888888;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input {
+    -webkit-user-select: text;
+}
+
+.clearFix:after {
+    content: " ";
+    display: block;
+    clear: both;
+}
+
+#debug {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 50px;
+    width: 200px;
+    color: white;
+    padding: .5em;
+    background: rgba(0,0,0,0.5);
+    display: none;
+}
+
+#login {
+    display: none;
+}
+
+#appTitle {
+    margin: 32px auto;
+    width: 200px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+#loginButton {
+    margin: 32px auto;
+    width: 96px;
+    padding: 1em;
+    font-size: 16pt;
+    color: #4477a1;
+    border: 1px solid #e4eff9;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#loginButton:hover {
+    background: #dae2e5;
+}
+
+#main {
+    display: none;
+}
+
+.container {
+    padding: 8px;
+    margin: 0 auto;
+    max-width: 768px;
+}
+
+/* Section */
+.section {
+    margin-top: 8px;
+    padding: 1em;
+    border: 1px solid lightgray;
+    background: white;
+}
+
+.section:first-child {
+    margin-top: 0;
+}
+
+.section .title {
+    font-size: 1.2em;
+}
+
+/* Cell */
+.cellsSection {
+    float: left;
+    margin-top: .5em;
+    margin-right: 10px;
+}
+
+.cellsSection:last-child {
+    margin-right: 0;
+}
+
+.cellsTitle {
+    font-size: 1em;
+    margin-bottom: 1px;
+}
+
+.cell {
+    float: left;
+    display: block;
+    font-size: 1em;
+    padding-top: 13px;
+    margin-top: 2px;
+    margin-left: 2px;
+    height: 48px;
+    width: 48px;
+    color: #4477a1;
+    background: #dae2e5;
+    -webkit-transition: background-color 2s;
+    border: 1px solid #e4eff9;
+    text-align: center;
+    cursor: pointer;
+}
+
+.cell.tiny {
+    font-size: .7em;
+    padding-top: 9px;
+    height: 32px;
+    width: 32px;
+}
+
+.cell.tiny.firstChapter {
+    font-weight: bold;
+}
+
+.cell.done {
+    background: white;
+}
+
+.cell.behind {
+    background: pink;
+}
+
+/* Setting */
+.setting > div {
+    margin-bottom: 16px;
+    font-size: 14pt;
+}
+
+.setting > div:last-child {
+    margin-bottom: 0;
+}
+
+.setting .settingTitle {
+    margin-bottom: 8px;
+}
+
+.setting input {
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+    padding: 4px;
+    font-size: 12pt;
+    color: #4477a1;
+    background: #dae2e5;
+    border: 1px solid #e4eff9;
+}
+
+/* Selection Menu */
+.selectionMenu {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+.selectionMenu div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: black;
+    opacity: .3;
+}
+
+.selectionMenu ul {
+    position: absolute;
+    opacity: 1;
+}
+
+.selectionMenu li {
+    font-size: 16pt;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 1em;
+    list-style: none;
+    color: #4477a1;
+    background: #dae2e5;
+    border-top: 1px solid #e4eff9;
+    cursor: pointer;
+}
+
+.selectionMenu li:last-child {
+    border-bottom: 1px solid #e4eff9;
+}
+
+.schoolSchedule {
+}
+
+.progress {
+    background: #dae2e5;
+    border: 1px solid #e4eff9;
+    border-radius: 3px;
+    height: 6px;
+    margin-top: 4px;
+    font-size: 16px;
+}
+
+.progress .expected {
+    border-radius: 3px;
+    height: 100%;
+    width: 0%;
+    background: pink;
+    position: relative;
+}
+
+.progress .actual {
+    border-radius: 3px;
+    height: 100%;
+    width: 0%;
+    background: lightgreen;
+    position: relative;
+    color: #4477a1;
+    padding: 0 8px;
+    text-align: right;
+}
+
+.percentage {
+    margin-top: 9px;
+    padding: 0 6px;
+    font-size: 0.6em;
+    float: right;
+    color: #4477a1;
+}
+
+input:disabled {
+    color: gray;
+}

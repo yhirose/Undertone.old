@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Undertone</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script src="js/underscore.string.min.js"></script>
+    <script src="js/date-utils.min.js"></script>
+    <script src="js/tap.js"></script>
+    <script src="js/bible-citation.js"></script>
+    <script src="js/appkey.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+    <div id="debug">
+        <input type="text">
+    </div>
+    <div id="actionMenu" class="selectionMenu hide">
+        <div></div>
+        <ul>
+            <li data-id="0"></li>
+            <li data-id="1"></li>
+            <li data-id="2"></li>
+        </ul>
+    </div>
+    <div id="login" class="container">
+        <div id="appTitle">Undertone</div>
+        <div id="loginButton">login</div>
+    </div>
+    <div id="main" class="container">
+        <div class="section schoolSchedule">
+            <div class="title">This Week</div>
+            <div id="thisWeek" class="clearFix"></div>
+        </div>
+        <div class="section schoolSchedule">
+            <div class="title">Next Week</div>
+            <div id="nextWeek" class="clearFix"></div>
+        </div>
+        <div class="section personalSchedule">
+            <div class="title">Personal Reading <div class="percentage"></div></div>
+            <div class="progress">
+                <div class="expected">
+                    <div class="actual"></div>
+                </div>
+            </div>
+            <div id="personal" class="clearFix"></div>
+        </div>
+        <div class="section setting">
+            <div>
+                <div class="settingTitle">Duration Years</div>
+                <div>
+                    <input id="durationYears" type="number" min="1" max="10">
+                </div>
+            </div>
+            <div>
+                <div class="settingTitle">Begin Date</div>
+                <div>
+                    <input id="durationBeginDate" type="date" disabled>
+                </div>
+            </div>
+            <div>
+                <div class="settingTitle">End Date</div>
+                <div>
+                    <input id="durationEndDate" type="date" disabled>
+                </div>
+            </div>
+            <div>
+                <div class="settingTitle">Action 1</div>
+                <div>
+                    <input type="text" class="actionName" data-id="0" placeholder="Enter name..." value="Rbi8 Japanese">
+                    <input type="url" class="actionURL" data-id="0" placeholder="Enter URL..." value="http://m.wol.jw.org/ja/wol/b/r7/lp-j/Rbi8/J/1985/{book}/{chapter}">
+                </div>
+            </div>
+            <div>
+                <div class="settingTitle">Action 2</div>
+                <div>
+                    <input type="text" class="actionName" data-id="1" placeholder="Enter name..." value="nwt English">
+                    <input type="url" class="actionURL" data-id="1" placeholder="Enter URL..." value="http://m.wol.jw.org/en/wol/b/r1/lp-e/nwt/E/2013/{book}/{chapter}">
+                </div>
+            </div>
+            <div>
+                <div class="settingTitle">Action 3</div>
+                <div>
+                    <input type="text" class="actionName" data-id="2" placeholder="Enter name...">
+                    <input type="url" class="actionURL" data-id="2" placeholder="Enter URL...">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="tmplSchoolSchedule" type="text/html">
+        <% _.each(items, function (item) { %>
+        <div class="cellsSection">
+            <div class="cellsTitle"><%= BibleCitation.getFullName(item.book) %></div>
+            <ul class="cells clearFix" data-date="<%= date %>">
+                <% _.each(item.chapters, function (chapter) { %>
+                <li class="cell" data-book="<%= item.book %>" data-chapter="<%= chapter %>"><%= chapter %></li>
+                <% }); %>
+            </ul>
+        </div>
+        <% }); %>
+    </script>
+    <script id="tmplPersonalSchedule" type="text/html">
+        <% for (var book = 1; book <= BibleCitation.getBookCount(); book++) { %>
+        <div class="cellsSection">
+            <div class="cellsTitle"><%= BibleCitation.getFullName(book) %></div>
+            <ul class="cells clearFix">
+                <% for (var chapter = 1, chaterCount = BibleCitation.getChapterCount(book); chapter <= chaterCount; chapter++) { %>
+                <li class="cell" data-book="<%= book %>" data-chapter="<%= chapter %>"><%= chapter %></li>
+                <% } %>
+            </ul>
+        </div>
+        <% } %>
+    </script>
+    <script id="tmplPersonalScheduleTiny" type="text/html">
+        <div class="cellsSection">
+            <ul class="cells clearFix">
+            <% for (var book = 1; book <= BibleCitation.getBookCount(); book++) { %>
+                <% for (var chapter = 1, chaterCount = BibleCitation.getChapterCount(book); chapter <= chaterCount; chapter++) { %>
+                    <% if (chapter === 1) { %>
+                    <li class="cell tiny firstChapter" data-book="<%= book %>" data-chapter="<%= chapter %>"><%= BibleCitation.getName(book) %></li>
+                    <% } else { %>
+                    <li class="cell tiny" data-book="<%= book %>" data-chapter="<%= chapter %>"><%= chapter %></li>
+                    <% } %>
+                <% } %>
+            <% } %>
+            </ul>
+        </div>
+    </script>
+</body>
+</html>
