@@ -1,8 +1,8 @@
 
 $(function () {
 
+    var DEFAULT_DURATION_YEARS = 3;
     var SCHOOL_SCHEDULE_PATH = 'dat/SchoolSchedule.csv';
-
     var TOTAL_CHAPTER_COUNT = (function () {
         var count = 0;
         for (var book = 1; book <= BibleCitation.getBookCount(); book++) {
@@ -11,7 +11,6 @@ $(function () {
         return count;
     }());
 
-    var client = new Dropbox.Client({ key: DROPBOX_APP_KEY });
     var schoolScheduleProgressTable;
     var personalScheduleProgressTable;
     var settingTable;
@@ -21,10 +20,11 @@ $(function () {
             return _.map(_.str.trim(s).split('\n'), function (x) {
                 return x.split(',');
             });
-        },
+        }/*,
         stringify: function (csv) {
             return _.map(csv, function (row) { return row.join(','); }).join('\n');
         }
+        */
     };
 
     var getSchoolSchedule = function (db, weekOffset) {
@@ -223,7 +223,7 @@ $(function () {
             }
         }
 
-        return 3; // default duration years
+        return DEFAULT_DURATION_YEARS;
     };
 
     var getEndDateForPersonalSchedule = function (beginDate) {
@@ -245,17 +245,6 @@ $(function () {
         var actualPercentage = actualChapterCount * 100 / TOTAL_CHAPTER_COUNT;
         var behindChapterCount = expectedChapterCount - actualChapterCount;
         var actualPercentageToExpected = actualPercentage * 100 / expectedPercentage;
-
-        // console.log('beginDate: ' + beginDate.toString());
-        // console.log('endDate: ' + endDate.toString());
-        // console.log('durationDays: ' + durationDays);
-        // console.log('chaptersPerDay: ' + chaptersPerDay);
-        // console.log('elapsedDays: ' + elapsedDays);
-        // console.log('expectedPercentage: ' + expectedPercentage);
-        // console.log('expectedChapterCount: ' + expectedChapterCount);
-        // console.log('actualPercentage: ' + actualPercentage);
-        // console.log('actualChapterCount: ' + actualChapterCount);
-        // console.log('behindChapterCount: ' + behindChapterCount);
 
         return {
             beginDate: beginDate,
@@ -338,7 +327,6 @@ $(function () {
     };
 
     var chooseAction = function (data) {
-
         var $menuFrame = $('#actionMenu');
         var $menuActions = $('#actionMenu > ul > li');
 
@@ -378,13 +366,16 @@ $(function () {
         });
     };
 
-	client.authenticate({ interactive: false }, function (error) {
-		if (error) {
-			alert('Authentication error: ' + error);
-		}
-	});
+    // Main
+    var client = new Dropbox.Client({ key: DROPBOX_APP_KEY });
 
-	if (client.isAuthenticated()) {
+    client.authenticate({ interactive: false }, function (error) {
+        if (error) {
+            alert('Authentication error: ' + error);
+        }
+    });
+
+    if (client.isAuthenticated()) {
         client.getDatastoreManager().openDefaultDatastore(function (error, datastore) {
             if (error) {
                 alert('Error opening default datastore: ' + error);
@@ -564,4 +555,3 @@ $(function () {
         });
     }
 });
-

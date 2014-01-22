@@ -24,7 +24,7 @@
                 delay: 750,
                 tap: function (e) {},
                 hold: function (e) {}
-            }
+            };
 
         options = $.extend(defaults, options);
 
