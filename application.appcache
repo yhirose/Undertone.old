@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# v1
+
+index.html
+favicon.ico
+icon.png
+icon76.png
+icon120.png
+icon152.png
+js/jquery.min.js
+js/dropbox-datastores.js
+js/underscore-min.js
+js/underscore.string.min.js
+js/date-utils.min.js
+js/tap.js
+js/bible-citation.js
+js/appkey.js
+js/app.js
+css/style.css
+dat/SchoolSchedule.csv
+
+NETWORK:
+*
+
