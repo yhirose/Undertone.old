@@ -317,15 +317,6 @@ $(function () {
         return $('.actionURL[data-id=' + id + ']').val();
     };
 
-    var openAction = function (data, actionFormatString) {
-        if (actionFormatString) {
-            var actionString = actionFormatString.replace(/{(book|chapter)}/g, function (m, g1) {
-                return data[g1];
-            });
-            window.open(actionString, '_blank');
-        }
-    };
-
     var chooseAction = function (data) {
         var $menuFrame = $('#actionMenu');
         var $menuActions = $('#actionMenu > ul > li');
@@ -341,16 +332,18 @@ $(function () {
         $menuActions
             .each(function (i, el) {
                 var name = getActionName(i);
-                if (name && getActionFormatString(i)) {
-                    $(el).text(name).show();
+                var actionFormatString = getActionFormatString(i);
+                if (name && actionFormatString) {
+                    var actionString = actionFormatString.replace(/{(book|chapter)}/g, function (m, g1) {
+                        return data[g1];
+                    });
+                    $(el).find('> a').text(name).attr('href', actionString).end().show();
                 } else {
                     $(el).hide();
                 }
             })
             .on('click', function (e) {
-                openAction(data, getActionFormatString($(e.target).data('id')));
                 dismissMenu();
-                return false;
             });
 
         $menuFrame.fadeIn({
@@ -361,7 +354,6 @@ $(function () {
                         top: $(window).height() / 2 - $menu.height() / 2,
                         left: $(window).width() / 2 - $menu.width() / 2
                     });
-
             }
         });
     };

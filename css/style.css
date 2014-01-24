@@ -190,13 +190,18 @@ input {
 .selectionMenu li {
     font-size: 16pt;
     height: 48px;
-    line-height: 48px;
-    padding: 0 1em;
-    list-style: none;
-    color: #4477a1;
     background: #dae2e5;
     border-top: 1px solid #e4eff9;
+    list-style: none;
     cursor: pointer;
+}
+
+.selectionMenu li > a {
+    display: inline-block;
+    line-height: 48px;
+    padding: 0 1em;
+    width: 100%;
+    color: #4477a1;
 }
 
 .selectionMenu li:last-child {
