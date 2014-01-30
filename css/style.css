@@ -10,6 +10,7 @@
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-text-size-adjust: 100%;
 }
 
 input {
@@ -66,14 +67,14 @@ input {
 }
 
 .container {
-    padding: 8px;
+    padding: 6px;
     margin: 0 auto;
     max-width: 768px;
 }
 
 /* Section */
 .section {
-    margin-top: 8px;
+    margin-top: 6px;
     padding: 1em;
     border: 1px solid lightgray;
     background: white;
@@ -107,10 +108,10 @@ input {
     float: left;
     display: block;
     font-size: 1em;
-    padding-top: 13px;
     margin-top: 2px;
     margin-left: 2px;
     height: 48px;
+    line-height: 48px;
     width: 48px;
     color: #4477a1;
     background: #dae2e5;
@@ -122,8 +123,8 @@ input {
 
 .cell.tiny {
     font-size: .7em;
-    padding-top: 9px;
     height: 32px;
+    line-height: 32px;
     width: 32px;
 }
 
