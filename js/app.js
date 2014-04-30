@@ -17,7 +17,7 @@ $(function () {
 
     var CSV = {
         parse: function (s) {
-            return _.map(_.str.trim(s).split('\n'), function (x) {
+            return _.map(_.str.trim(s).split(/\r?\n/), function (x) {
                 return x.split(',');
             });
         }/*,
