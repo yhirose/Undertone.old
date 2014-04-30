@@ -2,7 +2,7 @@
 var BibleCitation = (function () {
     var db = [
         [['Genesis', 'Gen.', 'Ge'], 50, []],
-        [['Exdus', 'Ex.', 'Ex'], 40, []],
+        [['Exodus', 'Ex.', 'Ex'], 40, []],
         [['Leviticus', 'Lev.', 'Le'], 27, []],
         [['Numbers', 'Num.', 'Nu'], 36, []],
         [['Deuteronomy', 'Deut.', 'De'], 34, []],
