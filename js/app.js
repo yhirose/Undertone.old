@@ -149,7 +149,7 @@ $(function () {
         var doneList = getSortedDoneListByDate();
 
         var nextCellIndex = getNextCellIndexForReading(doneList);
-        var begindCount = info.behindChapterCount;
+        var behindCount = info.behindChapterCount;
 
         var cellIndex = 0;
         $('.personalSchedule .cells').each(function () {
@@ -165,7 +165,7 @@ $(function () {
                     doneList.shift();
                 } else {
                     $cell.removeClass('done');
-                    if (cellIndex >= nextCellIndex && begindCount-- > 0) {
+                    if (cellIndex >= nextCellIndex && behindCount-- > 0) {
                         $cell.addClass('behind');
                     }
                 }
@@ -173,13 +173,14 @@ $(function () {
             });
         });
 
-        if (begindCount > 0) {
+        /*
+        if (behindCount > 0) {
             var cellIndex = 0;
             $('.personalSchedule .cells').each(function () {
                 $(this).children().each(function () {
                     var $cell = $(this);
                     if (!$cell.hasClass('done')) {
-                        if (begindCount-- > 0) {
+                        if (behindCount-- > 0) {
                             $cell.addClass('behind');
                         }
                     }
@@ -187,6 +188,7 @@ $(function () {
                 });
             });
         }
+        */
     };
 
     var getBeginDateForPersonalSchedule = function (doneList) {
@@ -307,6 +309,13 @@ $(function () {
         updatePersonalScheduleProgress(info);
         updateDurationSetting(info);
         updateActionsSetting();
+    };
+
+    var resetPersonalSchedule = function () {
+        var results = personalScheduleProgressTable.query();
+        _.each(results, function (rec, i) {
+            rec.deleteRecord();
+        });
     };
 
     var getActionName = function (id) {
@@ -537,6 +546,13 @@ $(function () {
                 }, 500);
             };
         })());
+
+        $('#resetPersonalSchedule').on('click', function (e) {
+            if (confirm('Are you sure?')) {
+                resetPersonalSchedule();
+            }
+            e.preventDefault();
+        });
 
     } else {
         $('#login').css('display', 'block');

@@ -165,6 +165,11 @@ input {
     border: 1px solid #e4eff9;
 }
 
+.setting input[type="button"] {
+    cursor: pointer;
+    text-align: left;
+}
+
 /* Selection Menu */
 .selectionMenu {
     position: fixed;
