@@ -202,7 +202,7 @@ $(function () {
                 return new Date(val);
             }
         }
-        
+
         // From the earliest recored date
         if (doneList.length > 0) {
             var begRec = _.min(doneList, function (rec) { return rec.get('date'); });
@@ -393,6 +393,7 @@ $(function () {
 
                 var thisWeekSchedule = getSchoolSchedule(db, 0);
                 var nextWeekSchedule = getSchoolSchedule(db, 1);
+                var weekAfterNextSchedule = getSchoolSchedule(db, 2);
 
                 // Remove old records...
                 var thisWeekDate = Date.parse(thisWeekSchedule[0]);
@@ -405,6 +406,7 @@ $(function () {
 
                 $('#thisWeek').html(makeSchoolScheduleUI(thisWeekSchedule));
                 $('#nextWeek').html(makeSchoolScheduleUI(nextWeekSchedule));
+                $('#weekAfterNext').html(makeSchoolScheduleUI(weekAfterNextSchedule));
                 $('#personal').html(makePersonalScheduleUI(true));
                 $('#main').css('display', 'block');
                 window.setTimeout(dataChanged, 0);
