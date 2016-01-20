@@ -40,14 +40,8 @@
         <div id="loginButton">login</div>
     </div>
     <div id="main" class="container">
-        <div class="section schoolSchedule">
-            <div class="title">School Schedule</div>
-            <div id="thisWeek" class="clearFix"></div>
-            <div id="nextWeek" class="clearFix"></div>
-            <div id="weekAfterNext" class="clearFix"></div>
-        </div>
         <div class="section personalSchedule">
-            <div class="title">Personal Reading <div class="percentage"></div></div>
+            <div class="title">Personal Reading Schedule<div class="percentage"></div></div>
             <div class="progress">
                 <div class="expected">
                     <div class="actual"></div>
@@ -103,18 +97,6 @@
             </div>
         </div>
     </div>
-    <script id="tmplSchoolSchedule" type="text/html">
-        <% _.each(items, function (item) { %>
-        <div class="cellsSection">
-            <div class="cellsTitle"><%= BibleCitation.getFullName(item.book) %></div>
-            <ul class="cells clearFix" data-date="<%= date %>">
-                <% _.each(item.chapters, function (chapter) { %>
-                <li class="cell" data-book="<%= item.book %>" data-chapter="<%= chapter %>"><%= chapter %></li>
-                <% }); %>
-            </ul>
-        </div>
-        <% }); %>
-    </script>
     <script id="tmplPersonalSchedule" type="text/html">
         <% for (var book = 1; book <= BibleCitation.getBookCount(); book++) { %>
         <div class="cellsSection">

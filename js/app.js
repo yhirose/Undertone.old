@@ -2,7 +2,6 @@
 $(function () {
 
     var DEFAULT_DURATION_YEARS = 3;
-    var SCHOOL_SCHEDULE_PATH = 'dat/SchoolSchedule.csv';
     var TOTAL_CHAPTER_COUNT = (function () {
         var count = 0;
         for (var book = 1; book <= BibleCitation.getBookCount(); book++) {
@@ -11,45 +10,8 @@ $(function () {
         return count;
     }());
 
-    var schoolScheduleProgressTable;
     var personalScheduleProgressTable;
     var settingTable;
-
-    var CSV = {
-        parse: function (s) {
-            return _.map(_.str.trim(s).split(/\r?\n/), function (x) {
-                return x.split(',');
-            });
-        }/*,
-        stringify: function (csv) {
-            return _.map(csv, function (row) { return row.join(','); }).join('\n');
-        }
-        */
-    };
-
-    var getSchoolSchedule = function (db, weekOffset) {
-        var normalize = function (s) {
-            return s;
-        };
-
-        var index = -1;
-        for (var i = 0, len = db.length; i < len; i++) {
-            var date = Date.parse(normalize(db[i][0])),
-                now = Date.now();
-
-            if (date <= now &&
-                (i + 1 === len || now < Date.parse(normalize(db[i + 1][0])))) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index === -1 || (index + weekOffset) === db.length) {
-            return -1;
-        }
-
-        return db[index + weekOffset];
-    };
 
     var getDataFromCell = function ($cell) {
         return {
@@ -57,19 +19,6 @@ $(function () {
             book: parseInt($cell.data('book'), 10),
             chapter: parseInt($cell.data('chapter'), 10)
         };
-    };
-
-    var makeSchoolScheduleUI = function (schedule) {
-        var parseRangeText = function (s) {
-            return _.map(s.split('/'), function (cita) {
-                return BibleCitation.parseCitation(cita);
-            });
-        };
-
-        return _.template($('#tmplSchoolSchedule').html(), {
-            date: schedule[0],
-            items: parseRangeText(schedule[1])
-        });
     };
 
     var makePersonalScheduleUI = (function () {
@@ -82,25 +31,6 @@ $(function () {
             return _.template($(tmpl).html());
         };
     })();
-
-    var updateSchoolScheduleCellState = function () {
-        $('.schoolSchedule .cells').each(function () {
-            $(this).children().each(function () {
-                var $cell = $(this);
-                var data = getDataFromCell($cell);
-                var results = schoolScheduleProgressTable.query(data);
-                if (results.length > 0) {
-                    if (!$cell.hasClass('done')) {
-                        $cell.addClass('done');
-                    }
-                } else {
-                    if ($cell.hasClass('done')) {
-                        $cell.removeClass('done');
-                    }
-                }
-            });
-        });
-    };
 
     var getSortedDoneListByDate = function () {
         var doneList = personalScheduleProgressTable.query();
@@ -304,7 +234,6 @@ $(function () {
     var dataChanged = function () {
         // TODO: update only items that are modified.
         var info = getDurationInfo();
-        updateSchoolScheduleCellState();
         updatePersonalScheduleCellState(info);
         updatePersonalScheduleProgress(info);
         updateDurationSetting(info);
@@ -383,61 +312,14 @@ $(function () {
                 return true;
             }
 
-            schoolScheduleProgressTable = datastore.getTable('schoolScheduleProgress');
             personalScheduleProgressTable = datastore.getTable('personalScheduleProgress');
             settingTable = datastore.getTable('setting');
 
-            $.get(SCHOOL_SCHEDULE_PATH).done(function (csv) {
-
-                var db = CSV.parse(csv);
-
-                var thisWeekSchedule = getSchoolSchedule(db, 0);
-                var nextWeekSchedule = getSchoolSchedule(db, 1);
-                var weekAfterNextSchedule = getSchoolSchedule(db, 2);
-
-                // Remove old records...
-                var thisWeekDate = Date.parse(thisWeekSchedule[0]);
-                var results = schoolScheduleProgressTable.query();
-                _.each(results, function (rec, i) {
-                    if (rec.date < thisWeekDate) {
-                        rec.deleteRecord();
-                    }
-                });
-
-                $('#thisWeek').html(makeSchoolScheduleUI(thisWeekSchedule));
-                $('#nextWeek').html(makeSchoolScheduleUI(nextWeekSchedule));
-                $('#weekAfterNext').html(makeSchoolScheduleUI(weekAfterNextSchedule));
-                $('#personal').html(makePersonalScheduleUI(true));
-                $('#main').css('display', 'block');
-                window.setTimeout(dataChanged, 0);
-            });
+            $('#personal').html(makePersonalScheduleUI(true));
+            $('#main').css('display', 'block');
+            window.setTimeout(dataChanged, 0);
 
             datastore.recordsChanged.addListener(dataChanged);
-        });
-
-        $('.schoolSchedule').tap('.cell', {
-            delay: 750,
-            tap: function (e) {
-                var $cell = $(e.target);
-                var data = getDataFromCell($cell);
-
-                var results = schoolScheduleProgressTable.query(data);
-
-                if (results.length > 0) {
-                    $cell.removeClass('done');
-                    results[0].deleteRecord();
-                } else {
-                    $cell.addClass('done');
-                    schoolScheduleProgressTable.insert(data);
-                }
-
-                updateSchoolScheduleCellState();
-                e.stopPropagation();
-            },
-            hold: function (e) {
-                var $cell = $(e.target);
-                chooseAction(getDataFromCell($cell));
-            }
         });
 
         $('.personalSchedule').tap('.cell', {
